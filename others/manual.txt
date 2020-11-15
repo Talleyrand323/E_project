@@ -1,0 +1,14 @@
+
+1. Install 'virtual environment'
+apt-get install -y python3-venv
+python3 -m venv myvenv
+source myvenv/bin/activate
+
+2. Install django and so on
+pip3 install django
+django-admin startproject project
+python (Enter) import django (Enter) django.VERSION (Enter) <- make sure it is installed in venv
+(optional : mv project project-outer)
+cd project(or cd project-outer)
+./manage.py startapp app1
+./manage.py migrate

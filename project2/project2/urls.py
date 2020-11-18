@@ -21,11 +21,36 @@ import app1.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', app1.views.home, name='home'),
-    path('main/', app1.views.main, name='main'),
-    path('main/left', app1.views.left, name='left'),
-    path('main/right', app1.views.right, name='right'),
+#    path('main/', app1.views.main, name='main'),
 	path('main2/', app1.views.main2, name='main2'),
+	path('pictures/', app1.views.pictures, name='pictures'),
+	
+    path('main2/left', app1.views.left, name='left'),
+    path('main2/right', app1.views.right, name='right'),
+    path('main2/up', app1.views.up, name='up'),
+    path('main2/down', app1.views.down, name='down'),
+
+    path('main2/front', app1.views.front, name='front'),
+    path('main2/back', app1.views.back, name='back'),
+    path('main2/cl_wise', app1.views.cl_wise, name='cl_wise'),
+    path('main2/counter_cl', app1.views.counter_cl, name='counter_cl'),
+
 	path('stream/', app1.views.stream, name='stream'),
+	
+#	path('main2/<int:servo>/<int:angle>', app1.views.moveServo, name='moveServo'),
+
+
+	
+#login
+	path('login/', app1.views.login, name ='login'),	
+	path('logout/', app1.views.logout, name ='logout'),	
+
+"""
+	url(r'^live/$', views.live, name='live'),
+	url(r'^playback/$', views.playback, name='playback'),
+	url(r'^playback/(?P<select_image>\w+)/$', views.playback_show, name='playback_show'),
+"""
+
 ]
 
 

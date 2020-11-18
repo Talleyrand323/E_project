@@ -1,8 +1,43 @@
 
 
+{% load static %}
+
 <h1>This is home </h1>
 
 
 
-<a href="{% url 'main' %}">to main</a>
+{% if user.is_authenticated %}
 
+
+<form method = "POST" action = "{% url 'logout' %}">
+	{% csrf_token %}
+	<input class = "dropdown-item" type = "submit" value = "Logout">
+</form>	
+
+
+{% else %}
+
+
+<a href="{% url 'main2' %}">to main</a>
+
+<form method = "POST" action = "{% url 'login' %}">
+{% csrf_token %}
+
+	Username: 
+	<br>
+	<input name = "username" type = "text">
+	<br>
+	
+	Password:
+	<br>
+	<input name = "password1" type = "password">
+	<br><br>
+	<input class = "btn btn-primary" type="submit" value = "Login!">
+
+</form>
+<br><br>
+
+{{error}}
+
+
+{% endif %}

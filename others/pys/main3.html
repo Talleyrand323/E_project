@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <div class="wrap">
+      <!-- header -->
+      <header>
+        <div class="inner">
+          <h1>RaspberryPI Camera</h1>
+        </div>
+
+    {% comment %}
+
+        <!-- gnb
+        <div class="gnb">
+          <ul>
+            <li class="sel"><a href="{% url 'live' %}">Live</a></li>
+            <li><a href="{% url 'playback' %}">Playback</a></li>
+    		<li><a href="{% url 'setting' %}">Setting</a></li>
+    		<li><a href="admin.html">Admin</a></li>
+    		<li><a href="live_tools.html">...</a></li>
+          </ul>
+        </div>
+    -->
+
+    {% endcomment %}
+
+        <!-- gnb | end -->
+      </header>
+      <!-- header | end -->
+      <!-- contents -->
+      <div class="contents overview">
+         <div class="inner">
+          <h3>Camera Live</h3>
+          <div class="con">
+            <!-- Your Connection -->
+    		<img style="-webkit-user-select: none;" src="{% url 'stream' %}" width="800" height="480">
+    		<!--` Your Connection | end -->
+
+            <br>
+{{warning}}
+<br><br>
+
+            #pan
+            <a href="{% url 'moveServo' 27, 1 %}"> ▶ </a> <br>
+            <a href="{% url 'moveServo' 27, 0 %}"> ◀ </a> <br>
+            Pan Angle : {{panServoAngle}} <br><br>
+            #tilt
+            <a href="{% url 'moveServo' 17, 1 %}"> ▲ </a> <br>
+            <a href="{% url 'moveServo' 17, 0 %}"> ▼ </a> <br>
+            Tilt Angle : {{tiltServoAngle}}
+    {% comment %}
+            <!--
+    		<div class="btn_wrap">
+    			<form action="{% url 'live' %}" method='post'>
+    				{% csrf_token %}
+    				<button type="submit">Snap Shot</button>
+    			</form>
+    			<form action='../live_left' method='GET'>
+                  <button type="submit">Left</button>
+    			</form>
+    			<form action='../live_up' method='GET'>
+                  <button type="submit">Up</button>
+    			</form>
+    			<form action='../live_down' method='GET'>
+                  <button type="submit">Down</button>
+    			</form>
+    			<form action='../live_right' method='GET'>
+                  <button type="submit">Right</button>
+    			</form>
+            </div>
+    -->
+    {% endcomment %}
+    	  </div>
+        </div>
+      </div>
+
+
+
+
+
+  </body>
+</html>
+

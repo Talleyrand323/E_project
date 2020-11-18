@@ -9,6 +9,21 @@
 
 </head>
 <body>
+
+
+
+{% load static %}
+
+
+{% if user.is_authenticated %}
+
+<form method = "POST" action = "{% url 'logout' %}">
+	{% csrf_token %}
+	<input class = "dropdown-item" type = "submit" value = "Logout">
+</form>	
+
+<a href="{% url 'pictures' %}">to pictures</a>
+
 <div class="wrap">
   <!-- header -->
   <header>
@@ -38,16 +53,62 @@
   </header>
   <!-- header | end -->
   <!-- contents -->
-  <div class="contents overview">
-     <div class="inner">
-      <h3>Camera Live</h3>
-      <div class="con">
-        <!-- Your Connection -->
-		<img style="-webkit-user-select: none;" src="{% url 'stream' %}" width="800" height="480">
-		<!--` Your Connection | end -->
-        <hr />
-  
-        <br>
+
+<div class = "wrapper-outer" display="grid" grid-template-columns="1fr 1fr">
+
+	  <div class="contents overview">
+		 <div class="inner">
+		  <h3>Camera Live</h3>
+		  <div class="con">
+		    <!-- Your Connection -->
+			<img style="-webkit-user-select: none;" src="{% url 'stream' %}" width="800" height="480">
+			<!--` Your Connection | end -->
+		    <hr />
+	  
+		    <br>
+
+	<div class = "wrapper" display="grid" grid-template-columns ="500px 500px" grid-template-rows="1fr 1fr">
+
+		<div class = "servo">
+		
+		
+	<!--		<button><a href="{% url 'left' %}">left</a></button>	-->
+	
+<br>
+	{{warning}}
+<br><br>
+
+            #pan
+            <a href="{% url 'left' %}"> ◀ </a> 
+            <a href="{% url 'right' %}"> ▶ </a> <br>
+
+            Pan Angle : {{panServoAngle}} <br><br>
+            #tilt
+            <a href="{% url 'up' %}"> ▲ </a> 
+            <a href="{% url 'down' %}"> ▼ </a> <br>
+            Tilt Angle : {{tiltServoAngle}}
+
+	
+		</div>
+<br><br>
+
+		<div class = "wheel">
+			<button><a href="{% url 'front' %}">front   </a></button>
+			
+			
+			<button><a href="{% url 'back' %}">back   </a></button>
+			
+
+			<button><a href="{% url 'cl_wise' %}">clockwise   </a></button>
+			
+
+			<button><a href="{% url 'counter_cl' %}">counter-clockwise   </a></button>
+			<br><br><br>
+		</div>
+
+	</div>
+
+</div>
 
 {% comment %} 
         <!--
@@ -74,9 +135,39 @@
 	  </div>
     </div>
   </div>
+  
+  
+  
+  
   <!-- contents | end -->
   <!-- footer -->
   <!-- footer | end -->
 </div>
+
+
+{% else %}
+
+forbidden
+
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

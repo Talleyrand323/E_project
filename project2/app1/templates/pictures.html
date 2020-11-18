@@ -1,0 +1,66 @@
+
+{% load static %}
+
+{% if user.is_authenticated %}
+
+<form method = "POST" action = "{% url 'logout' %}">
+	{% csrf_token %}
+	<input class = "dropdown-item" type = "submit" value = "Logout">
+</form>	
+
+<a href="{% url 'main2' %}">to main</a>
+
+<h1> Captured Pictures </h1>
+
+
+<!--
+
+<div class="wrap">
+
+  <header>
+    <div class="inner">
+      <h1>RaspberryPI Camera</h1>
+    </div>
+
+    <div class="gnb">
+      <ul>
+        <li><a href="{% url 'live' %}">Live</a></li>
+		<li class="sel"><a href="{% url 'playback' %}">Playback</a></li>
+        <li><a href="{% url 'setting' %}">Setting</a></li>
+		<li><a href="admin.html">Admin</a></li>
+        <li><a href="live_tools.html">...</a></li>     
+      </ul>
+    </div>
+
+  </header>
+
+
+  <div class="contents password">
+    <div class="side">
+	{% if image_list %}
+	  <ul>
+	  {% for image in image_list %}
+	    <li><a href="{% url 'playback' %}{{image.image_name}}">{{image.image_name}}</a></li>
+	  {% endfor %}
+	  </ul>
+	{% endif %}		  
+	</div>
+    <div class="inner">
+      <h3>Playback</h3>
+      <img src="../../resources/images/{{select_image}}.png" width=1000 border="2">
+      
+    </div>
+  </div>
+
+</div>
+
+
+
+-->
+
+
+{% else %}
+
+forbidden
+
+{% endif %}

@@ -1,5 +1,11 @@
 ﻿<!DOCTYPE html>
+
+
+{% load static %}
+
 <html>
+
+
 <head>
 <title>RaspberryPI Camera</title>
 
@@ -7,15 +13,26 @@
 <link rel="stylesheet" type="text/css" href="../../resources/css/common.css" />
 -->
 
+    	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="{% static 'main.js' %}"></script>
+
+
+
+
 </head>
 <body>
 
 
 
-{% load static %}
+
 
 
 {% if user.is_authenticated %}
+
 
 <form method = "POST" action = "{% url 'logout' %}">
 	{% csrf_token %}
@@ -28,8 +45,11 @@
   <!-- header -->
   <header>
     <div class="inner">
-      <h1>RaspberryPI Camera</h1>
+      <h1 style="color:green">RaspberryPI Camera</h1>
     </div>
+
+
+<input type="button" id="execute" value="test">
 
 {% comment %}
 
@@ -76,7 +96,7 @@
 	
 <br>
 	{{warning}}
-<br><br>
+
 
             #pan
             <a href="{% url 'left' %}"> ◀ </a> 
@@ -92,20 +112,29 @@
 		</div>
 <br><br>
 
+
+
+
+
+
+
+<br><br>
+
 		<div class = "wheel">
-			<button><a href="{% url 'front' %}">front   </a></button>
-			
-			
-			<button><a href="{% url 'back' %}">back   </a></button>
-			
-
-			<button><a href="{% url 'cl_wise' %}">clockwise   </a></button>
-			
-
-			<button><a href="{% url 'counter_cl' %}">counter-clockwise   </a></button>
+			<button id="front"> front </button>
+			<button id="back"> back  </button>
+			<button id="cl_wise"> clockwise  </button>
+			<button id="counter_cl"> counter-clockwise   </button>
+						
 			<br><br><br>
-		</div>
+			
+			Speed : <span id="speed"> </span> (1~3) <br>
+			
+			<button id="speed_up"><a >+   </a></button>
+			<button id="speed_down"><a >-   </a></button>
 
+		</div>
+			<br><br><br>
 	</div>
 
 </div>
@@ -170,4 +199,100 @@ forbidden
 
 
 </body>
+
+
+<script>
+
+var startEventType = 'mousedown', endEventType = 'mouseup';
+
+var filter = "win16|win32|win64|mac|macintel";
+
+if(navigator.platform){
+	if( filter.indexOf( navigator.platform.toLowerCase() ) < 0 ) {
+		startEventType = 'touchstart';
+		endEventType = 'touchend';
+	}
+}
+
+var sp = 2;
+
+
+
+
+
+$(document).ready(function(){
+
+	$('#speed').html(sp);
+
+//1
+	$('#front').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'front' %}",		  	  
+		  dataType: 'json',
+		  success: function(data) { },	  error: function(data) {  },
+	  	})	})
+	$('#front').bind(endEventType, function(){
+	  $.ajax({
+		  url: "{% url 'stop' %}",			  dataType: 'json',
+		  success: function(data) {  },  error: function(data) {  },
+		})	})
+//2
+	$('#back').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'back' %}",		  dataType: 'json',
+		  success: function(data) {  },	  error: function(data) {  },
+	  	})	})
+	$('#back').bind(endEventType, function(){
+	  $.ajax({
+		  url: "{% url 'stop' %}",			  dataType: 'json',
+		  success: function(data) {  },  error: function(data) {  },
+		})	})
+//3		
+	$('#cl_wise').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'cl_wise' %}",		  dataType: 'json',
+		  success: function(data) {  },	  error: function(data) {  },
+	  	})	})
+	$('#cl_wise').bind(endEventType, function(){
+	  $.ajax({
+		  url: "{% url 'stop' %}",			  dataType: 'json',
+		  success: function(data) {  },  error: function(data) {  },
+		})	})
+//4		
+	$('#counter_cl').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'counter_cl' %}",		  dataType: 'json',
+		  success: function(data) {  },	  error: function(data) {  },
+	  	})	})
+	$('#counter_cl').bind(endEventType, function(){
+	  $.ajax({
+		  url: "{% url 'stop' %}",			  dataType: 'json',
+		  success: function(data) {  },  error: function(data) {  },
+		})	})
+//5
+	$('#speed_up').bind(startEventType, function(){
+	
+		if(sp <3) sp++;
+		$('#speed').html(sp);
+	  
+	  $.ajax({
+		  url: "{% url 'speed_up' %}",		  dataType: 'json',
+		  success: function(data) {  },	  error: function(data) {  },
+	  	})	})
+	
+	$('#speed_down').bind(startEventType, function(){
+
+		if(sp > 1 ) sp--;
+		$('#speed').html(sp);
+	
+		  $.ajax({
+		  url: "{% url 'speed_down' %}",		  dataType: 'json',
+		  success: function(data) {  },  error: function(data) {  },
+		})	})
+		
+		
+		
+})
+</script>
+
 </html>

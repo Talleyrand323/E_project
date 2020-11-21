@@ -15,6 +15,8 @@ import cv2
 
 from django.shortcuts import render,          redirect
 from django.http import HttpResponse
+import simplejson as json
+
 
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -38,6 +40,11 @@ filePath = directory + '/app/templates/resources/images/'
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
+
+global pwm_L
+global pwm_R
+pwm_L = 70
+pwm_R = 70
 
 global panServoAngle
 global tiltServoAngle
@@ -96,11 +103,18 @@ def logout(request):
 #############################          Wheels         ###########################
 
 class Car(object):
+	global pwm_L
+	global pwm_R
+
 	def __init__(self, LF, LB, RF, RB):
 		self.LF = LF
 		self.LB = LB
 		self.RF = RF
 		self.RB = RB
+		self.pwm_LF = pwm_L
+		self.pwm_LB = pwm_L
+		self.pwm_RF = pwm_R
+		self.pwm_RB = pwm_R
 		
 	def setup(self):
 		GPIO.setmode(GPIO.BCM)
@@ -108,43 +122,38 @@ class Car(object):
 		GPIO.setup(self.RF, GPIO.OUT)
 		GPIO.setup(self.LB, GPIO.OUT)
 		GPIO.setup(self.RB, GPIO.OUT)
-    
-	def backward(self, t):
+		self.pwm_LF = GPIO.PWM(LF, pwm_L)
+		self.pwm_LB = GPIO.PWM(LB, pwm_L)
+		self.pwm_RF = GPIO.PWM(RF, pwm_R)
+		self.pwm_RB = GPIO.PWM(RB, pwm_R)
+    		   		
+	def forward(self):
 		self.setup()
-		GPIO.output(self.LF, GPIO.HIGH)
-		GPIO.output(self.RF, GPIO.HIGH)
-		time.sleep(t)
-		GPIO.output(self.LF, GPIO.LOW)
-		GPIO.output(self.RF, GPIO.LOW)
-		GPIO.cleanup()
+		(self.pwm_LF).start(pwm_L)		
+		(self.pwm_RF).start(pwm_R)		
 
-	def forward(self, t):
+	def backward(self):
 		self.setup()
-		GPIO.output(self.LB, GPIO.HIGH)
-		GPIO.output(self.RB, GPIO.HIGH)
-		time.sleep(t)  
-		GPIO.output(self.LB, GPIO.LOW)
-		GPIO.output(self.RB, GPIO.LOW)
-		GPIO.cleanup()
-
-	def clockwise(self, t):
+		(self.pwm_LB).start(pwm_L)		
+		(self.pwm_RB).start(pwm_R)	
+		
+	def clockwise(self):
 		self.setup()
-		GPIO.output(self.LF, GPIO.HIGH)
-		GPIO.output(self.RB, GPIO.HIGH)
-		time.sleep(t)  
-		GPIO.output(self.LF, GPIO.LOW)
-		GPIO.output(self.RB, GPIO.LOW)
-		GPIO.cleanup()
-
-	def counterClockwise(self, t):
+		(self.pwm_LF).start(pwm_L)		
+		(self.pwm_RB).start(pwm_R)	
+		
+	def counterClockwise(self):
 		self.setup()
-		GPIO.output(self.LB, GPIO.HIGH)
-		GPIO.output(self.RF, GPIO.HIGH)
-		time.sleep(t)  
-		GPIO.output(self.LB, GPIO.LOW)
-		GPIO.output(self.RF, GPIO.LOW)
+		(self.pwm_LB).start(pwm_L)		
+		(self.pwm_RF).start(pwm_R)	
+		
+	def stop_it(self):
+		(self.pwm_LF).stop()		
+		(self.pwm_RF).stop()				
+		(self.pwm_LB).stop()		
+		(self.pwm_RB).stop()		
 		GPIO.cleanup()
-
+		
 
 # GPIO Pins
 LF = 5 
@@ -157,20 +166,61 @@ smartCar = Car(LF, LB, RF, RB)
 
 
 def front(request):
-	smartCar.forward(0.25)
-	return render(request, 'main2.html')
+	smartCar.forward()
+	
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse(json.dumps(context), content_type="application/json")
+
 
 def back(request):
-	smartCar.backward(0.25)
-	return render(request, 'main2.html')
+	smartCar.backward()
 
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse(json.dumps(context), content_type="application/json")
+	
 def cl_wise(request):
-	smartCar.clockwise(0.25)
-	return render(request, 'main2.html')
+	smartCar.clockwise()
+
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse(json.dumps(context), content_type="application/json")
 
 def counter_cl(request):
-	smartCar.counterClockwise(0.25)
-	return render(request, 'main2.html')
+	smartCar.counterClockwise()
+
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse(json.dumps(context), content_type="application/json")
+
+def stop(request):
+	smartCar.stop_it()
+
+	return HttpResponse('Hello World!')
+
+
+def speed_up(request):
+	global pwm_L
+	global pwm_R
+	if pwm_L < 90:
+		pwm_L = pwm_L + 20
+		pwm_R = pwm_R + 20
+	
+	context = pwm_L / 30
+	return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+def speed_down(request):
+	global pwm_L
+	global pwm_R
+	if pwm_L > 50 :
+		pwm_L = pwm_L - 20
+		pwm_R = pwm_R - 20
+	
+	context = pwm_L / 30
+	return HttpResponse(json.dumps(context), content_type="application/json")
+
 
 #############################          Servos         ###########################
 

@@ -34,8 +34,9 @@ from app1.models import Image
 ######################################
 
 directory = os.getcwd()
-filePath = directory + '/app/templates/resources/images/'
+#filePath = directory + '/templates/resources/images/'
 
+filePath = '/home/pi/E_project/project2/media/images/'
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -70,8 +71,10 @@ def pictures(request):
 
 
 def main2(request):
-    
-    return render(request, 'main2.html')
+	if request.method == 'POST':
+			cam.take_frame()
+			
+	return render(request, 'main2.html')
 
 def login(request):
 
@@ -205,8 +208,8 @@ def speed_up(request):
 	global pwm_L
 	global pwm_R
 	if pwm_L < 90:
-		pwm_L = pwm_L + 20
-		pwm_R = pwm_R + 20
+		pwm_L = pwm_L + 25
+		pwm_R = pwm_R + 25
 	
 	context = pwm_L / 30
 	return HttpResponse(json.dumps(context), content_type="application/json")
@@ -216,8 +219,8 @@ def speed_down(request):
 	global pwm_L
 	global pwm_R
 	if pwm_L > 50 :
-		pwm_L = pwm_L - 20
-		pwm_R = pwm_R - 20
+		pwm_L = pwm_L - 25
+		pwm_R = pwm_R - 25
 	
 	context = pwm_L / 30
 	return HttpResponse(json.dumps(context), content_type="application/json")
@@ -321,7 +324,9 @@ class VideoCamera(object):
 	def take_frame(self):
 		now = datetime.now()
 		fileName = filePath + now.strftime('%y%m%d_%H%M%S') + '.png'
-		print (fileName)
+		print ('filePath : ' + filePath)
+		print ('fileName : ' + fileName)
+		print ('cwd : ' + directory)
 		cv2.imwrite(fileName, self.frame)
 
 		db = Image(image_name=now.strftime('%y%m%d_%H%M%S'), pub_date=timezone.now())
@@ -342,24 +347,17 @@ def stream(request):
 	except:  # This is bad! replace it with proper handling
 		pass
 
-
-
-"""
-def live(request):
-	if request.method == 'POST':
-		cam.take_frame()
-
-	return render(request, 'design/html/live.html')
-
 def playback(request):
+	
+
 	image_list = Image.objects.all()
-	return render(request, 'design/html/playback.html',
+	return render(request, 'pictures.html',
 							{'image_list' : image_list})
+
 
 def playback_show(request, select_image):
 	image_list = Image.objects.all()
-	return render(request, 'design/html/playback.html',
-							{'image_list' : image_list,  'select_image' : select_image})
-"""
+	return render(request, 'pictures.html', {'image_list' : image_list, 'select_image' : select_image})
+
 
 

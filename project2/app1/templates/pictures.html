@@ -1,5 +1,5 @@
 
-{% load static %}
+
 
 {% if user.is_authenticated %}
 
@@ -13,7 +13,6 @@
 <h1> Captured Pictures </h1>
 
 
-<!--
 
 <div class="wrap">
 
@@ -24,11 +23,10 @@
 
     <div class="gnb">
       <ul>
-        <li><a href="{% url 'live' %}">Live</a></li>
+        <li><a href="{% url 'main2' %}">to main</a></li>
 		<li class="sel"><a href="{% url 'playback' %}">Playback</a></li>
-        <li><a href="{% url 'setting' %}">Setting</a></li>
-		<li><a href="admin.html">Admin</a></li>
-        <li><a href="live_tools.html">...</a></li>     
+
+
       </ul>
     </div>
 
@@ -47,16 +45,19 @@
 	</div>
     <div class="inner">
       <h3>Playback</h3>
-      <img src="../../resources/images/{{select_image}}.png" width=1000 border="2">
-      
+          <img src="/media/images/{{select_image}}.png" width=300 border="2" alt="   select a picture from above">
+          
+      <!-- ../images means playback/images, ./ depends on URL appearing on the web browser  -->
+
+
+
+
     </div>
   </div>
 
 </div>
 
 
-
--->
 
 
 {% else %}

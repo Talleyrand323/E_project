@@ -38,8 +38,15 @@
 	{% csrf_token %}
 	<input class = "dropdown-item" type = "submit" value = "Logout">
 </form>	
+<br>
 
-<a href="{% url 'pictures' %}">to pictures</a>
+<form method = "POST" action = "{% url 'main2' %}">
+	{% csrf_token %}
+	<button class = "dropdown-item" type = "submit">Snapshot</button>
+</form>	
+<br>
+
+<a href="{% url 'playback' %}">to pictures</a>
 
 <div class="wrap">
   <!-- header -->

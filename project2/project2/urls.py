@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from django.conf import settings
+from django.conf.urls.static import static
 import app1.views
 
 urlpatterns = [
@@ -30,7 +32,8 @@ urlpatterns = [
     path('main2/right', app1.views.right, name='right'),
     path('main2/up', app1.views.up, name='up'),
     path('main2/down', app1.views.down, name='down'),
-
+#	path('main2/<int:servo>/<int:angle>', app1.views.moveServo, name='moveServo'),
+	
 	#wheels	
     path('main2/front', app1.views.front, name='front'),
     path('main2/back', app1.views.back, name='back'),
@@ -42,18 +45,18 @@ urlpatterns = [
 
     #camera
 	path('stream/', app1.views.stream, name='stream'),
-	
-#	path('main2/<int:servo>/<int:angle>', app1.views.moveServo, name='moveServo'),
+	path('playback/', app1.views.playback, name='playback'),
+	path('playback/<slug:select_image>/', app1.views.playback_show, name='playback_show'),
 	
 #login
 	path('login/', app1.views.login, name ='login'),	
 	path('logout/', app1.views.logout, name ='logout'),	
 
-]
+	
+#	url(r'^playback/(?P<select_image>\w+)/$', views.playback_show, name='playback_show'),
 
-"""
-	url(r'^live/$', views.live, name='live'),
-	url(r'^playback/$', views.playback, name='playback'),
-	url(r'^playback/(?P<select_image>\w+)/$', views.playback_show, name='playback_show'),
-"""
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
 

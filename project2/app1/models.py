@@ -8,6 +8,7 @@ from django.db import models
 class Image(models.Model):
 	image_name = models.CharField(max_length=200)
 	pub_date = models.DateTimeField('date published')
+	image = models.ImageField(upload_to='images/', default='static/RPi.jpeg')
 	
 	def __str__(self):
 		

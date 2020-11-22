@@ -83,7 +83,8 @@ def login(request):
 				auth.login(request, user)
 				return redirect('main2')
 		else:
-			return render(request, 'home.html', {error : 'wrong password'})
+			msg = 'Wrong ID or Password'
+			return render(request, 'home.html', {'error' : msg})
 	
 	else:
 		return render(request, 'home.html')

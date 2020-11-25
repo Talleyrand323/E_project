@@ -184,14 +184,14 @@ def back(request):
 	context = {'hello' : example }
 	return HttpResponse(json.dumps(context), content_type="application/json")
 	
-def cl_wise(request):
+def counter_cl(request):
 	smartCar.clockwise()
 
 	example = "hello AJAX!"
 	context = {'hello' : example }
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
-def counter_cl(request):
+def cl_wise(request):
 	smartCar.counterClockwise()
 
 	example = "hello AJAX!"
@@ -274,28 +274,49 @@ def moveServo(servo, angle):
 	return warning
 
 
+def rotate(pinNum, startNum, sleepNum):
+	pin = pinNum
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setup(pin, GPIO.OUT)
+	p= GPIO.PWM(pin, 50)  
+	p.start(startNum)
+	time.sleep(sleepNum)
+	p.stop()
+	GPIO.cleanup()
 
+#17 pan 27 tilt
+#6 and 0.072 to right, 8 and 0.1 to left
 
-def right(request):
-	warning = moveServo(27, 1)
-	
-	return render(request, 'main2.html', {'panServoAngle' : panServoAngle, 'tiltServoAngle' : tiltServoAngle, 'warning' : warning })
 
 def left(request):
-	warning = moveServo(27, 0)
+	rotate(17, 8, 0.1)
 	
-	return render(request, 'main2.html', {'panServoAngle' : panServoAngle, 'tiltServoAngle' : tiltServoAngle, 'warning' : warning })
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse('Hello World!')
+	#return HttpResponse(json.dumps(context), content_type="application/json")
 
-def up(request):
-	warning = moveServo(17, 1)
-	
-	return render(request, 'main2.html', {'panServoAngle' : panServoAngle, 'tiltServoAngle' : tiltServoAngle, 'warning' : warning })
-	
+def right(request):
+	rotate(17, 6, 0.072)	
+
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse('Hello World!')
+#	return HttpResponse(json.dumps(context), content_type="application/json")
+
 def down(request):
-	warning = moveServo(17, 0)
+	rotate(27, 8, 0.1)
 	
-	return render(request, 'main2.html', {'panServoAngle' : panServoAngle, 'tiltServoAngle' : tiltServoAngle, 'warning' : warning })
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse(json.dumps(context), content_type="application/json")
 	
+def up(request):
+	rotate(27, 6, 0.072)	
+	
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse(json.dumps(context), content_type="application/json")	
 
 
 ###################################################################################3
@@ -312,8 +333,15 @@ class VideoCamera(object):
 	def __del__(self):
 		self.video.release()
 
+#frame = cv2.flip(frame,0)
+
 	def get_frame(self):
 		image = self.frame
+		
+		### flipping streamed image
+		image = cv2.flip( image, 0 )
+		image = cv2.flip( image, 1 )
+		###
 		ret, jpeg = cv2.imencode('.jpg', image)
 		return jpeg.tobytes()		
 
@@ -327,8 +355,15 @@ class VideoCamera(object):
 		print ('filePath : ' + filePath)
 		print ('fileName : ' + fileName)
 		print ('cwd : ' + directory)
-		cv2.imwrite(fileName, self.frame)
-
+		
+		### flipping snapshot picture
+#		cv2.imwrite(fileName, self.frame)
+		flipped = self.frame
+		flipped = cv2.flip( flipped, 0 )
+		flipped = cv2.flip( flipped, 1 )
+		cv2.imwrite(fileName, flipped)
+		###
+		
 		db = Image(image_name=now.strftime('%y%m%d_%H%M%S'), pub_date=timezone.now())
 		db.save()
 
@@ -338,6 +373,7 @@ cam = VideoCamera()
 def gen(camera):
 	while True:
 		frame = cam.get_frame()
+		
 		yield(b'--frame\r\n'
 			b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 

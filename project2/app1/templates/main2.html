@@ -105,15 +105,21 @@
 	{{warning}}
 
 
-            #pan
-            <a href="{% url 'left' %}"> ◀ </a> 
-            <a href="{% url 'right' %}"> ▶ </a> <br>
 
+            #pan
             Pan Angle : {{panServoAngle}} <br><br>
+			<button id="left"> ◀ </button> &nbsp &nbsp
+			<button id="right"> ▶ </button>
+			
+			<br><br>
+			
             #tilt
-            <a href="{% url 'up' %}"> ▲ </a> 
-            <a href="{% url 'down' %}"> ▼ </a> <br>
-            Tilt Angle : {{tiltServoAngle}}
+            Tilt Angle : {{tiltServoAngle}} <br><br>
+            
+            <button id="up"> ▲ </button> &nbsp &nbsp
+            <button id="down"> ▼ </button>
+            
+			<br><br>
 
 	
 		</div>
@@ -226,11 +232,11 @@ $(document).ready(function(){
 
 	$('#speed').html(sp);
 
+//wheels
 //1
 	$('#front').bind(startEventType, function(){
 	  $.ajax({
-		  url: "{% url 'front' %}",		  	  
-		  dataType: 'json',
+		  url: "{% url 'front' %}",		    dataType: 'json',
 		  success: function(data) { },	  error: function(data) {  },
 	  	})	})
 	$('#front').bind(endEventType, function(){
@@ -291,8 +297,39 @@ $(document).ready(function(){
 		  url: "{% url 'speed_down' %}",		  dataType: 'json',
 		  success: function(data) {  },  error: function(data) {  },
 		})	})
-		
-		
+
+//servos
+//1			
+	$('#left').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'left' %}",		  	  dataType: 'json',
+		  success: function(data) { },	  error: function(data) {  },
+	  	})	})
+
+//2
+	$('#right').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'right' %}",		  	  
+		  dataType: 'json',
+		  success: function(data) { },	  error: function(data) {  },
+	  	})	})
+
+//3
+	$('#up').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'up' %}",		  	  
+		  dataType: 'json',
+		  success: function(data) { },	  error: function(data) {  },
+	  	})	})
+
+//4
+	$('#down').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'down' %}",		  	  
+		  dataType: 'json',
+		  success: function(data) { },	  error: function(data) {  },
+	  	})	})
+
 		
 })
 </script>

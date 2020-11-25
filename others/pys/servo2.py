@@ -33,20 +33,42 @@ def moveServo(servo, angle):
 	if servo == 27:
 		if angle == 1:
 			panServoAngle = panServoAngle + 10
-
+			
 		else:
 			panServoAngle = panServoAngle - 10
+
+
 		setServoAngle(27, panServoAngle)
 
 	elif servo == 17:
 		if angle == 1:
 			tiltServoAngle = tiltServoAngle + 10
+			print(tiltServoAngle)
 		else:
 			tiltServoAngle = tiltServoAngle - 10
-		setServoAngle(17, panServoAngle)
+			print(tiltServoAngle)	
+
+		setServoAngle(17, tiltServoAngle)
 		
 moveServo(17, 1)
+
+sleep(1)
+
 moveServo(17, 1)
+
+sleep(1)
+
 moveServo(17, 1)
+
+sleep(1)
+
 moveServo(17, 0)
+
+sleep(1)
+
 moveServo(17, 0)
+
+sleep(1)
+
+
+

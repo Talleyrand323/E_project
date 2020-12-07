@@ -76,6 +76,12 @@ def main2(request):
 			
 	return render(request, 'main2.html')
 
+def main2a(request):
+	if request.method == 'POST':
+			cam.take_frame()
+			
+	return render(request, 'main2a.html')
+
 def login(request):
 
 	if request.method =='POST':

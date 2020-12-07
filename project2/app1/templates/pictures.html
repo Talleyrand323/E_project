@@ -1,24 +1,48 @@
 
-
+<title>Pictures</title>
 
 {% if user.is_authenticated %}
+
+<style>
+
+.outer{
+	display:grid;
+	grid-template-columns: 1fr 1fr;
+	text-align:center;
+}
+
+.one{
+
+}
+
+.two{
+
+}
+
+.three{
+
+}
+
+</style>
+
 
 <form method = "POST" action = "{% url 'logout' %}">
 	{% csrf_token %}
 	<input class = "dropdown-item" type = "submit" value = "Logout">
 </form>	
-
 <a href="{% url 'main2' %}">to main</a>
+
+
 
 <h1> Captured Pictures </h1>
 
-
+<div class="outer">
 
 <div class="wrap">
 
   <header>
     <div class="inner">
-      <h1>RaspberryPI Camera</h1>
+
     </div>
 
     <div class="gnb">
@@ -59,7 +83,7 @@
 
 </div>
 
-
+</div>
 
 
 {% else %}

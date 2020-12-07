@@ -46,11 +46,22 @@
     <div class="inner">
       <h3>Playback</h3>
           <img src="/media/images/{{select_image}}.png" width=300 border="2" alt="   select a picture from above">
-          
+          {{image_id}}
       <!-- ../images means playback/images, ./ depends on URL appearing on the web browser  -->
 
+		<form action="{% url 'delete_edit' image_id %}" method="POST">
+			{% csrf_token %}
+			<span> current title: {{select_image}}</span> <br>
+			<span> new title: </span>
+			<input type="text" name="title">
+			<input type="submit" value="Edit">
+		</form>
+
+	    <button><a href="{% url 'delete_edit' image_id %}">Delete</a></button>
+
+
 <br><br>
-	    
+
 
 
 

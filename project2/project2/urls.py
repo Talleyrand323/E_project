@@ -47,6 +47,9 @@ urlpatterns = [
 	path('stream/', app1.views.stream, name='stream'),
 	path('playback/', app1.views.playback, name='playback'),
 	path('playback/<slug:select_image>/', app1.views.playback_show, name='playback_show'),
+
+	path('delete_edit/<int:abc>/', app1.views.delete_edit, name='delete_edit'),
+#	path('edit_name/<int:abc>/', app1.views.edit_name, name='edit_name'),
 	
 #login
 	path('login/', app1.views.login, name ='login'),	

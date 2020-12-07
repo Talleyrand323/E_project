@@ -13,7 +13,7 @@ from datetime import datetime
 import os
 import cv2
 
-from django.shortcuts import render,          redirect
+from django.shortcuts import render,          redirect,   get_object_or_404
 from django.http import HttpResponse
 import simplejson as json
 
@@ -384,16 +384,47 @@ def stream(request):
 		pass
 
 def playback(request):
-	
 
+	select_image = 'butler'
 	image_list = Image.objects.all()
 	return render(request, 'pictures.html',
-							{'image_list' : image_list})
+							{'image_list' : image_list, 'select_image' : select_image})
 
 
 def playback_show(request, select_image):
 	image_list = Image.objects.all()
-	return render(request, 'pictures.html', {'image_list' : image_list, 'select_image' : select_image})
+	
+	image_id = 0
+	for img in image_list:
+		if img.image_name == select_image:
+			image_id = img.id
+			
+	return render(request, 'pictures2.html', {'image_list' : image_list, 'select_image' : select_image, 'image_id' : image_id })
+	
+def delete_edit(request, abc):
+
+	if request.method == "POST":
+		changewhat = Image.objects.get(id = abc)
+		old_title = changewhat.image_name
+		new_title = request.POST['title']
+
+		print(old_title)
+		print(new_title)
+			
+		changewhat.image_name = new_title
+		changewhat.save()
+
+		os.system('cp /home/pi/E_project/project2/media/images/'+ old_title +'.png  /home/pi/E_project/project2/media/images/'+new_title+'.png')
+
+		os.system('rm /home/pi/E_project/project2/media/images/'+ old_title +'.png')
+
+	else:
+		post = get_object_or_404(Image, pk = abc)
+		post.delete()
+		
+	return redirect('playback')
+
+
 
 
 

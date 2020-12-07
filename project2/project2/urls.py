@@ -55,6 +55,11 @@ urlpatterns = [
 	path('login/', app1.views.login, name ='login'),	
 	path('logout/', app1.views.logout, name ='logout'),	
 
+#acoustic
+
+	path('from_robot/', app1.views.from_robot, name ='from_robot'),	
+	path('to_robot/', app1.views.to_robot, name ='to_robot'),	
+
 	
 #	url(r'^playback/(?P<select_image>\w+)/$', views.playback_show, name='playback_show'),
 

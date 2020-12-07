@@ -104,6 +104,22 @@ def logout(request):
 	return render(request, 'home.html')
 
 
+def from_robot(request):
+
+	os.system('arecord --format=S16_LE --duration=7 --rate=16000 --file-type=wav /home/pi/E_project/project2/media/acoustic/from_robot.wav')
+	sleep(16)
+	
+	return	redirect('main2')
+
+
+def to_robot(request):
+	sleep(16)
+	os.system('python3 /home/pi/E_project/project2/media/client.py')
+	sleep(6)
+	os.system('aplay --format=S16_LE --rate=16000 /home/pi/E_project/project2/media/acoustic/to_robot.wav')
+	sleep(2)
+	return redirect('main2')
+	
 #############################          Wheels         ###########################
 
 class Car(object):

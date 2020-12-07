@@ -2,43 +2,80 @@
 
 {% load static %}
 
-<h1>This is home </h1>
 
 
 
-{% if user.is_authenticated %}
+<style>
+
+.outer-box{
+	text-align: center;
+}
+
+.inner-box{
+
+	position: relative;
+}
+
+h1 {
+	text-align: center;
+}
+
+.other-font{
+	font-family: Gill Sans Extrabold, sans-serif;
+	font-weight: normal;
+	font-style: italic;
+	color: #253934;
+	margin-bottom: 0.5rem;
+}
+
+.cat {
+	border: 3px none gold;
+	border-radius: 10%;
+}
 
 
-<form method = "POST" action = "{% url 'logout' %}">
-	{% csrf_token %}
-	<input class = "dropdown-item" type = "submit" value = "Logout">
-</form>	
-
-        <li><a href="{% url 'main2' %}">to main</a></li>
-
-{% else %}
+</style>
 
 
-<a href="{% url 'main2' %}">to main</a>
 
-<form method = "POST" action = "{% url 'login' %}">
-{% csrf_token %}
+<div class="outer-box">
+<br>
+	<h1>The Butlers </h1>
 
-	Username: 
+   <img class="cat" src="/media/images/cat_home.jpeg" width=300 border="2" alt="   select a picture from above">
+<br>
+	{% if user.is_authenticated %}
+
 	<br>
-	<input name = "username" type = "text">
-	<br>
+	<form method = "POST" action = "{% url 'logout' %}">
+		{% csrf_token %}
+		<input class = "dropdown-item" type = "submit" value = "Logout">
+	</form>	
 	
-	Password:
-	<br>
-	<input name = "password1" type = "password">
-	<br><br>
-	<input class = "btn btn-primary" type="submit" value = "Login!">
+	<a href="{% url 'main2' %}">To main</a>
 
-</form>
-<br><br>
+	{% else %}
+
+	<div class="inner-box">
+		<form  method = "POST" action = "{% url 'login' %}">
+		{% csrf_token %}
+
+			<p class="other-font" > Username : </p>
+			<input name = "username" type = "text">
+			<br>
+			
+			<p class="other-font" > Password : </p>
+			<input name = "password1" type = "password">
+			<br><br>
+			<input class = "btn btn-primary" type="submit" value = "Login!">
+
+		</form>
+	</div>
+	<br><br>
+
 
 {{error}}
 
+</div>
 
 {% endif %}

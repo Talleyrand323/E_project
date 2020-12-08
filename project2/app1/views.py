@@ -33,6 +33,8 @@ from app1.models import Image
 
 ######################################
 
+
+
 directory = os.getcwd()
 #filePath = directory + '/templates/resources/images/'
 
@@ -73,8 +75,16 @@ def pictures(request):
 def main2(request):
 	if request.method == 'POST':
 			cam.take_frame()
-			
-	return render(request, 'main2.html')
+	
+	os.system('/home/pi/E_project/climate')
+	h = open('/home/pi/climate/humidity', 'r')
+	t = open('/home/pi/climate/temperature', 'r')
+	hum = h.read()
+	tem = t.read()
+	h.close()
+	t.close()
+	
+	return render(request, 'main2.html', {'hum' : hum, 'tem' : tem})
 
 def main2a(request):
 	if request.method == 'POST':

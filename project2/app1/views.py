@@ -56,20 +56,46 @@ tiltServoAngle = 90
 
 
 
+def from_robot(request):
+	os.system('rm /home/pi/E_project/project2/media/acoustic/from_robot.wav')
+	sleep(2)
+	os.system('arecord --format=S16_LE --duration=8 --rate=16000 --file-type=wav /home/pi/E_project/project2/media/acoustic/from_robot.wav')
+	sleep(16)
+	
+	return	redirect('main2')
+
+
 #############################          Navigate         ###########################
 
 def home(request):
     
     return render(request, 'home.html')
 
-
-def main(request):
-    
-    return render(request, 'main.html')
-
 def pictures(request):
     
     return render(request, 'pictures.html')
+
+
+############################## dance ###################################
+
+def dance_1(request):
+
+#	os.system('omxplayer --vol -3000 /home/pi/E_project/modules/assets/bright1.mp3')
+	os.system('python3 /home/pi/E_project/modules/dance.py -m bright1.mp3')
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse(json.dumps(context), content_type="application/json")
+
+def dance_2(request):
+#	os.system('omxplayer --vol -3000 /home/pi/E_project/modules/assets/bright2.mp3')
+	os.system('python3 /home/pi/E_project/modules/dance.py -m bright2.mp3')
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+####################################################################
+
 
 
 def main2(request):
@@ -120,19 +146,15 @@ def logout(request):
 	return render(request, 'home.html')
 
 
-def from_robot(request):
-
-	os.system('arecord --format=S16_LE --duration=7 --rate=16000 --file-type=wav /home/pi/E_project/project2/media/acoustic/from_robot.wav')
-	sleep(16)
-	
-	return	redirect('main2')
 
 
 def to_robot(request):
-	sleep(16)
+	os.system('rm /home/pi/E_project/project2/media/acoustic/to_robot.wav')
+	sleep(10)
 	os.system('python3 /home/pi/E_project/project2/media/client.py')
-	sleep(6)
-	os.system('aplay --format=S16_LE --rate=16000 /home/pi/E_project/project2/media/acoustic/to_robot.wav')
+	sleep(12)
+	#os.system('aplay --format=S16_LE --rate=16000 /home/pi/E_project/project2/media/acoustic/to_robot.wav')
+	os.system('omxplayer --vol -3000 /home/pi/E_project/project2/media/acoustic/to_robot.wav ')
 	sleep(2)
 	return redirect('main2')
 	
@@ -280,8 +302,10 @@ def setServoAngle(servo, angle):
 		return 'Angle of the motor must be within 30~150'
 
 
-panPin = 27
-tiltPin = 17
+panPin = 17
+tiltPin = 27
+
+"""
 
 def moveServo(servo, angle):
 	global panServoAngle
@@ -305,6 +329,7 @@ def moveServo(servo, angle):
 	
 	return warning
 
+"""
 
 def rotate(pinNum, startNum, sleepNum):
 	pin = pinNum

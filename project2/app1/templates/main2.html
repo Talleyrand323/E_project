@@ -33,38 +33,47 @@
 
 			<div class="circles" style="margin: 10% auto; vertical-align:middle; text-align:center;">
 
-			&nbsp &nbsp
+			
+				&nbsp &nbsp
 				  <form style="grid-area: a; "class="btn-circle"  method = "POST" action = "{% url 'logout' %}">
 				  	{% csrf_token %}
-				  	<input style="margin-top:2rem;" class = "dropdown-item" type = "submit" value = "Logout">
+					<button class = "btn-circle dropdown-item" type = "submit">Logout</button>
 				  </form>
-
 
 				  <form style="grid-area: b;" class="btn-circle"  method = "POST" action = "{% url 'main2' %}">
 				  	{% csrf_token %}
-				  	<button style="margin-top:2rem;" class = "dropdown-item" type = "submit">Snapshot</button>
+				  	<button class = "btn-circle dropdown-item" type = "submit">Snapshot</button>
 				  </form>
 
 				  <form style="grid-area: c;" class="btn-circle" >
-				  	<button style="margin-top:2rem;"><a href="{% url 'playback' %}">Pictures</a></button>
+					<button class = "btn-circle" type = "button" onclick="location.href='{% url 'playback' %}'">Pictures</button>
 	  			  </form>
+
 	  			  <form style="grid-area: d;" class="btn-circle" >
-				<button style="margin-top:2rem;" ><a href="#"> Dance</a></button>
-					</form>
-				<form style="grid-area: e;" class="btn-circle" >
-				<button style="margin-top:2rem;" ><a href="{% url 'to_robot' %}" >Sound</a></button>
-					</form>
+					<button class = "btn-circle" type = "button" id="dance_1">Dance1</button>
+				  </form>
+
+	  			  <form style="grid-area: e;" class="btn-circle" >
+					<button class = "btn-circle" type = "button" id="dance_2">Dance2</button>
+				  </form>
+
+				  <form style="grid-area: f;" class="btn-circle" >
+					<button class = "btn-circle" type = "button" onclick="location.href='{% url 'to_robot' %}'">Sound</button>
+				  </form>
+			
 			</div>
 
         </div>
         
+        
+        
         <div class="content two">
             <div style="text-align:center"  class="img">
 
-              <img src="{% url 'stream' %}" width="900" height="500">
+              <img id="video" src="{% url 'stream' %}" width="900" height="500">
 
             </div>
-            <div class="deco1"><h2> &nbspTemperature : {{tem}} °C  Humidity : {{hum}}%</h2> </div>
+            <div class="deco1"><h2 id="font-small"> &nbspTemperature : {{tem}} °C  Humidity : {{hum}}%</h2> </div>
             <div class="deco2"></div>
         </div>
 
@@ -78,7 +87,7 @@
 </div>
 
 <div class="below-white" >
-	<h1 style="margin-top:0; margin-bottom:4rem;">The Butlers</h1>
+	<h1 id="the" style="margin-top:0; margin-bottom:4rem;">The Butlers</h1>
 </div>
 
 <div>
@@ -207,8 +216,8 @@
     .circles {
 text-align: center;
           display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    	grid-template-areas: "a b c d e"    
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    	grid-template-areas: "a b c d e f"    
     
     }
     
@@ -247,10 +256,28 @@ text-align: center;
     }
 
     @media screen and (max-width:768px) {
+    	.white{
+    		height:2rem;
+    	}
+    	#the{
+    		font-size:1rem;
+    		margin-bottom:1rem;
+    		padding-bottom: 1rem;
+    	}
+    	#video{
+    		width: 20rem;
+    		height: 20rem;
+    	}
+    	.img{
+    		height:21rem;
+    	}
+    	.two{
+    	height:28rem;
+    	}
         .container{
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows:  30% 45% 90%;
+        grid-template-rows:  15% 30% 55%;
         }
         .three{ grid-area:  3/1/4/2 }
 		
@@ -264,7 +291,9 @@ text-align: center;
 			line-height: 1.42857;
 			background-color: white;
 		}
-		
+		#font-small{
+			font-size: 1rem;
+		}
 		    .circles {
 	text-align: center;
 		      display: grid;
@@ -402,6 +431,21 @@ $(document).ready(function(){
 	$('#down').bind(startEventType, function(){
 	  $.ajax({
 		  url: "{% url 'down' %}",		  	  
+		  dataType: 'json',
+		  success: function(data) { },	  error: function(data) {  },
+	  	})	})
+
+//dance 
+	$('#dance_1').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'dance_1' %}",		  	  
+		  dataType: 'json',
+		  success: function(data) { },	  error: function(data) {  },
+	  	})	})
+	  	
+	$('#dance_2').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'dance_2' %}",		  	  
 		  dataType: 'json',
 		  success: function(data) { },	  error: function(data) {  },
 	  	})	})

@@ -43,6 +43,10 @@ urlpatterns = [
     path('main2/speed_up', app1.views.speed_up, name='speed_up'),
     path('main2/speed_down', app1.views.speed_down, name='speed_down'),
 
+	#dance
+	path('main2/dance_1', app1.views.dance_1, name='dance_1'),
+	path('main2/dance_2', app1.views.dance_2, name='dance_2'),
+
     #camera
 	path('stream/', app1.views.stream, name='stream'),
 	path('playback/', app1.views.playback, name='playback'),

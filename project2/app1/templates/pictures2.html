@@ -1,80 +1,127 @@
+<!doctype html>
+<html lang="en">
+	  <head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<style>
+			.list-group{
+				max-height: 300px;
+				overflow-y: scroll;
+			}
+		</style>
+
+		<title> Pictures </title> 
+	  </head>
+
+	  <body>
+		{% if user.is_authenticated %}
+		<!-- The Butlers Logo -->
+		<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#000062;">
+			<a class="navbar-brand" href="{% url 'main2' %}">
+				<img src="/media/images/logo.bmp" width="25" height="25" class="d-inline-block align-top" alt="">
+			        	<span style="color:white;"> &nbsp The Butlers </span>
+			</a>
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<form class = "nav-link" method = "POST" action = "{% url 'logout' %}">
+							{% csrf_token %}
+							<input class = "nav-link" type = "submit" value = "Logout" id = "logout_input_id">
+						</form>
+
+					</li>
+				</ul>
+			</div>
+
+		</nav>
+
+		
+		<!-- Picture -->
+
+		<!-- News jumbotron -->
+		<div class="jumbotron text-center hoverable p-4" style="background-color:#f6f6f6;">
+
+			<!-- Grid row -->
+			<div class="row">
+
+				<!-- Grid column -->
+				<div class="col-md-4 offset-md-1 mx-3 my-3">
+					<div class="view overlay">
+          					<img src="/media/images/{{select_image}}.png" width=300 border="2" alt="select a picture from above">
+      						<!-- ../images means playback/images, ./ depends on URL appearing on the web browser  -->
+						<a> <div class="mask rgba-white-slight"> </div> </a><br>
+      						<h3>{{select_image}}</h3>
+      						     				        						     				    
+      						     				    <br>
+      								<form action="{% url 'delete_edit' image_id %}" method="POST">
+										{% csrf_token %}
+
+										<span> new title: </span>
+										<input type="text" name="title">
+										<input type="submit" value="Edit">
+									</form>
+<br>
+								 <button><a href="{% url 'delete_edit' image_id %}">Delete</a></button>    
+								
+  								
+      						
+						<br><br>
+					</div>
+				</div>
+				<!-- Grid column -->
+
+				<div class="col-md-7 text-md-left ml-3 mt-3">
+					<div class="list-group" id="list-tab" role="tablist">
+						<h4 class="h4 mb-4"> Captured Pictures </h4>
+						{% if image_list %}
+	  						<ul>
+	  							{% for image in image_list %}
+									{% if image.image_name == select_image %}
+	    									<li class = "list-group-item  list-group-item-primary">
+											<a href = "{% url 'playback' %}{{image.image_name}}" class = "list-group-item">
+												{{image.image_name}}
+											</a>
+										</li>
+									{% else %}
+	    									<li class = "list-group-item list-group-item-secondary">
+											<a href = "{% url 'playback' %}{{image.image_name}}" class = "list-group-item">
+												{{image.image_name}}
+											</a>
+										</li>
+									{% endif %}
+	  							{% endfor %}
+	 	 					</ul>
+						{% endif %}
+					</div>	
+				</div>
+			</div>
+		</div>
 
 
+		{% else %}
 
-{% if user.is_authenticated %}
+		forbidden
 
-<form method = "POST" action = "{% url 'logout' %}">
-	{% csrf_token %}
-	<input class = "dropdown-item" type = "submit" value = "Logout">
-</form>	
+		{% endif %}
 
-<a href="{% url 'main2' %}">to main</a>
+	</body>
 
-<h1> Captured Pictures </h1>
+	
 
-
-
-<div class="wrap">
-
-  <header>
-    <div class="inner">
-      <h1>RaspberryPI Camera</h1>
-    </div>
-
-    <div class="gnb">
-      <ul>
-        <li><a href="{% url 'main2' %}">to main</a></li>
-		<li class="sel"><a href="{% url 'playback' %}">Playback</a></li>
-
-
-      </ul>
-    </div>
-
-  </header>
-
-
-  <div class="contents password">
-    <div class="side">
-	{% if image_list %}
-	  <ul>
-	  {% for image in image_list %}
-	    <li><a href="{% url 'playback' %}{{image.image_name}}">{{image.image_name}}</a></li>
-	  {% endfor %}
-	  </ul>
-	{% endif %}		  
-	</div>
-    <div class="inner">
-      <h3>Playback</h3>
-          <img src="/media/images/{{select_image}}.png" width=300 border="2" alt="   select a picture from above">
-          {{image_id}}
-      <!-- ../images means playback/images, ./ depends on URL appearing on the web browser  -->
-
-		<form action="{% url 'delete_edit' image_id %}" method="POST">
-			{% csrf_token %}
-			<span> current title: {{select_image}}</span> <br>
-			<span> new title: </span>
-			<input type="text" name="title">
-			<input type="submit" value="Edit">
-		</form>
-
-	    <button><a href="{% url 'delete_edit' image_id %}">Delete</a></button>
-
-
-<br><br>
-
-
-
-
-    </div>
-  </div>
-
-</div>
-
-
-
-
-{% else %}
-
-forbidden
-
-{% endif %}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+</html>

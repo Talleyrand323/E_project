@@ -5,7 +5,7 @@ import sys
 clientSock = socket(AF_INET, SOCK_STREAM)
 
 #to be changed to local IP of Jachibang
-clientSock.connect(('192.168.35.18', 8080))
+clientSock.connect(('192.168.0.2', 8080))
 
 #cable
 #clientSock.connect(('169.254.152.150', 8080))

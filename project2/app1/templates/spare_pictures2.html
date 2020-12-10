@@ -1,0 +1,80 @@
+
+
+
+{% if user.is_authenticated %}
+
+<form method = "POST" action = "{% url 'logout' %}">
+	{% csrf_token %}
+	<input class = "dropdown-item" type = "submit" value = "Logout">
+</form>	
+
+<a href="{% url 'main2' %}">to main</a>
+
+<h1> Captured Pictures </h1>
+
+
+
+<div class="wrap">
+
+  <header>
+    <div class="inner">
+      <h1>RaspberryPI Camera</h1>
+    </div>
+
+    <div class="gnb">
+      <ul>
+        <li><a href="{% url 'main2' %}">to main</a></li>
+		<li class="sel"><a href="{% url 'playback' %}">Playback</a></li>
+
+
+      </ul>
+    </div>
+
+  </header>
+
+
+  <div class="contents password">
+    <div class="side">
+	{% if image_list %}
+	  <ul>
+	  {% for image in image_list %}
+	    <li><a href="{% url 'playback' %}{{image.image_name}}">{{image.image_name}}</a></li>
+	  {% endfor %}
+	  </ul>
+	{% endif %}		  
+	</div>
+    <div class="inner">
+      <h3>Playback</h3>
+          <img src="/media/images/{{select_image}}.png" width=300 border="2" alt="   select a picture from above">
+          {{image_id}}
+      <!-- ../images means playback/images, ./ depends on URL appearing on the web browser  -->
+
+		<form action="{% url 'delete_edit' image_id %}" method="POST">
+			{% csrf_token %}
+			<span> current title: {{select_image}}</span> <br>
+			<span> new title: </span>
+			<input type="text" name="title">
+			<input type="submit" value="Edit">
+		</form>
+
+	    <button><a href="{% url 'delete_edit' image_id %}">Delete</a></button>
+
+
+<br><br>
+
+
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+{% else %}
+
+forbidden
+
+{% endif %}

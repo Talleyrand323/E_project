@@ -1,0 +1,93 @@
+
+<title>Pictures</title>
+
+{% if user.is_authenticated %}
+
+<style>
+
+.outer{
+	display:grid;
+	grid-template-columns: 1fr 1fr;
+	text-align:center;
+}
+
+.one{
+
+}
+
+.two{
+
+}
+
+.three{
+
+}
+
+</style>
+
+
+<form method = "POST" action = "{% url 'logout' %}">
+	{% csrf_token %}
+	<input class = "dropdown-item" type = "submit" value = "Logout">
+</form>	
+<a href="{% url 'main2' %}">to main</a>
+
+
+
+<h1> Captured Pictures </h1>
+
+<div class="outer">
+
+<div class="wrap">
+
+  <header>
+    <div class="inner">
+
+    </div>
+
+    <div class="gnb">
+      <ul>
+        <li><a href="{% url 'main2' %}">to main</a></li>
+		<li class="sel"><a href="{% url 'playback' %}">Playback</a></li>
+
+
+      </ul>
+    </div>
+
+  </header>
+
+
+  <div class="contents password">
+    <div class="side">
+	{% if image_list %}
+	  <ul>
+	  {% for image in image_list %}
+	    <li><a href="{% url 'playback' %}{{image.image_name}}">{{image.image_name}}</a></li>
+	  {% endfor %}
+	  </ul>
+	{% endif %}		  
+	</div>
+    <div class="inner">
+      <h3>Playback</h3>
+          <img src="/media/images/{{select_image}}.png" width=300 border="2" alt="   select a picture from above">
+          
+      <!-- ../images means playback/images, ./ depends on URL appearing on the web browser  -->
+
+<br><br>
+	    
+
+
+
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+
+{% else %}
+
+forbidden
+
+{% endif %}

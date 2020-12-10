@@ -36,24 +36,25 @@
 			&nbsp &nbsp
 				  <form style="grid-area: a; "class="btn-circle"  method = "POST" action = "{% url 'logout' %}">
 				  	{% csrf_token %}
-				  	<input style="margin-top:2rem;" class = "dropdown-item" type = "submit" value = "Logout">
+					<button class = "btn-circle dropdown-item" type = "submit">Logout</button>
 				  </form>
-
 
 				  <form style="grid-area: b;" class="btn-circle"  method = "POST" action = "{% url 'main2' %}">
 				  	{% csrf_token %}
-				  	<button style="margin-top:2rem;" class = "dropdown-item" type = "submit">Snapshot</button>
+				  	<button class = "btn-circle dropdown-item" type = "submit">Snapshot</button>
 				  </form>
 
 				  <form style="grid-area: c;" class="btn-circle" >
-				  	<button style="margin-top:2rem;"><a href="{% url 'playback' %}">Pictures</a></button>
+					<button class = "btn-circle" type = "button" onclick="location.href='{% url 'playback' %}'">Pictures</button>
 	  			  </form>
+
 	  			  <form style="grid-area: d;" class="btn-circle" >
-				<button style="margin-top:2rem;" ><a href="#"> Dance</a></button>
-					</form>
-				<form style="grid-area: e;" class="btn-circle" >
-				<button style="margin-top:2rem;" ><a href="{% url 'to_robot' %}" >Sound</a></button>
-					</form>
+					<button class = "btn-circle" type = "button" onclick="location.href='#'">Dance</button>
+				  </form>
+
+				  <form style="grid-area: e;" class="btn-circle" >
+					<button class = "btn-circle" type = "button" onclick="location.href='{% url 'to_robot' %}'">Pictures</button>
+				  </form>
 			</div>
 
         </div>
@@ -146,7 +147,6 @@
 
 
 <style>
-
 	.btn-circle {
 		width: 7rem;
 		height: 7rem;
@@ -154,9 +154,19 @@
 		border-radius: 50%;
 		text-align: center;
 		font-size: 12px;
+		font-weight: bold;
 		line-height: 1.42857;
 		background-color: white;
 	}
+
+	button.btn-circle {	
+		text-decoration: none;
+	}
+
+	.btn-circle:hover {
+		background-color: #87CEEB;
+	}
+
 
 	.white{
 		background-color: white;

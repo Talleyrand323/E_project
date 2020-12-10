@@ -431,7 +431,7 @@ def playback_show(request, select_image):
 		if img.image_name == select_image:
 			image_id = img.id
 			
-	return render(request, 'pictures2.html', {'image_list' : image_list, 'select_image' : select_image, 'image_id' : image_id })
+	return render(request, 'pictures.html', {'image_list' : image_list, 'select_image' : select_image, 'image_id' : image_id })
 	
 def delete_edit(request, abc):
 

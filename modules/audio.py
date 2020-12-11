@@ -2,7 +2,6 @@
 import pyaudio
 import numpy as np
 import simpleaudio as sa
-#import pydub
 
 CHUNK = 2 ** 13
 RATE = 44100

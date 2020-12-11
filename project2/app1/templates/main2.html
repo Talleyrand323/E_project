@@ -57,9 +57,10 @@
 					<button class = "btn-circle" type = "button" id="dance_2">Dance2</button>
 				  </form>
 
-				  <form style="grid-area: f;" class="btn-circle" >
-					<button class = "btn-circle" type = "button" onclick="location.href='{% url 'to_robot' %}'">Sound</button>
+				 <form style="grid-area: f;" class="btn-circle" >
+				<button class = "btn-circle" type = "button" onclick="location.href='{% url 'to_robot' %}'">To_robot</button>
 				  </form>
+
 			
 			</div>
 
@@ -91,10 +92,13 @@
 </div>
 
 <div>
-	        <button style="margin-bottom:0.5rem;" ><a href="{% url 'from_robot' %}">Sound from robot</a></button> <br>
+	        
+    <h3 style="color: white;">Sound from robot</h3>
+	        
+	        
 		<audio style="margin-bottom: 2rem;" controls >
-			<source src="/media/acoustic/from_robot.wav" type="audio/wav">
-		
+<!--			<source src="/media/acoustic/from_robot.wav" type="audio/wav">   -->
+		<source src="{% url 'speak' %}" type="audio/wav">
 		</audio>
 		<br>
 </div>
@@ -450,7 +454,16 @@ $(document).ready(function(){
 		  success: function(data) { },	  error: function(data) {  },
 	  	})	})
 
-		
+//speak
+/*
+			$('#speak').bind(startEventType, function(){
+	  $.ajax({
+		  url: "{% url 'speak' %}",		  	  
+		  dataType: 'json',
+		  success: function(data) { },	  error: function(data) {  },
+	  	})	})
+*/
+
 })
 </script>
 

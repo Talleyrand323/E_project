@@ -80,19 +80,38 @@ def pictures(request):
 
 def dance_1(request):
 
-#	os.system('omxplayer --vol -3000 /home/pi/E_project/modules/assets/bright1.mp3')
+	os.system('omxplayer --vol -3000 /home/pi/E_project/modules/assets/bright1.mp3 &')
+#	subprocess.call('python3 /home/pi/E_project/modules/dance.py -m bright1.mp3', shell = True)
+
 	os.system('python3 /home/pi/E_project/modules/dance.py -m bright1.mp3')
 	example = "hello AJAX!"
 	context = {'hello' : example }
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
 def dance_2(request):
-#	os.system('omxplayer --vol -3000 /home/pi/E_project/modules/assets/bright2.mp3')
+	os.system('omxplayer --vol -3000 /home/pi/E_project/modules/assets/bright2.mp3 &')
 	os.system('python3 /home/pi/E_project/modules/dance.py -m bright2.mp3')
 	example = "hello AJAX!"
 	context = {'hello' : example }
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
+
+# AUDIO STREAMING###################################
+
+import sys
+sys.path.append("/home/pi/E_project/modules")
+import audio # from our customized module
+
+speaker = audio.Speaker()
+def genAudioStreamResponse(request):
+	try:
+		response  = StreamingHttpResponse(speaker.extract_stream_data(), status = 200, content_type = 'audio/x-wav;codec=pcm')
+		response['Cache-Control'] = 'no-cache'
+		return response
+	except Exception as identifier:
+		print(identifier)
+		return HttpResponse(status = 400)
+        
 
 ####################################################################
 

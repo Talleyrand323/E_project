@@ -63,7 +63,7 @@ urlpatterns = [
 
 	path('from_robot/', app1.views.from_robot, name ='from_robot'),	
 	path('to_robot/', app1.views.to_robot, name ='to_robot'),	
-
+	path('speak/', app1.views.genAudioStreamResponse, name ='speak'),	
 	
 #	url(r'^playback/(?P<select_image>\w+)/$', views.playback_show, name='playback_show'),
 

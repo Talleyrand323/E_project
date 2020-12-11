@@ -16,7 +16,7 @@ rightWheelForward = 13
 rightWheelBackward = 19
 
 # short moves
-TICK = 0.05
+TICK = 0.025
 
 class Car:
     def __init__(self, 

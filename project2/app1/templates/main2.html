@@ -16,6 +16,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/p5@[p5_version]/lib/p5.js"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
 
 </head>
 
@@ -56,13 +58,46 @@
 	  			  <form style="grid-area: e;" class="btn-circle" >
 					<button class = "btn-circle" type = "button" id="dance_2">Dance2</button>
 				  </form>
-
+<!--
 				 <form style="grid-area: f;" class="btn-circle" >
 				<button class = "btn-circle" type = "button" onclick="location.href='{% url 'to_robot' %}'">To_robot</button>
 				  </form>
+-->
 
-			
+  <button style="grid-area: f;"type="button" class="btn-circle dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    To Robot
+  </button>
+  <div class="dropdown-menu" >  
+	<form  action = "{% url 'new_audio' %}" class="dropdown-item" enctype="multipart/form-data" method="POST" >        
+		{% csrf_token %}            
+		 <label for='exampleFormControlFile1'>New audio</label>
+		 <input name='audio_file' type='file' >
+                  <input type="submit" class="btn btn-info " value="Submit">
+
+         <input name='audio_name' type='text' class='form-control' placeholder="save as...">
+         
+
+	</form>
+
+
+	<div class="dropdown-divider"></div>
+		{% for audio in audio_list %}
+			<div class="dropdown-item" style="display: grid;  grid-template-columns: 1fr 3fr 1fr;">
+				<a style=" text-decoration:none; color:black;"  href="{% url 'play_audio' audio.id %}"> {{audio.title}}</a>
+	<a></a>
+				<button style="border-color:white;"><a style="text-decoration:none; color:gray;" href="{% url 'delete_audio' audio.id %}">Delete</a></button>
 			</div>
+		{% endfor %}		
+	</div>
+	
+	
+	
+	
+</div>
+
+
+
+
 
         </div>
         
@@ -111,7 +146,7 @@
 			<br>
                     <button class="direction" id="front"> front </button>
                     <button class="direction" id="back"> back  </button>
-                    <button class="direction" id="cl_wise"> clockwise  </button>
+                    <button class="direction" id="cl_wise"> cl_wise  </button>
                     <button class="direction" id="counter_cl"> counter-cl</button>
 
                     <br>
@@ -454,15 +489,7 @@ $(document).ready(function(){
 		  success: function(data) { },	  error: function(data) {  },
 	  	})	})
 
-//speak
-/*
-			$('#speak').bind(startEventType, function(){
-	  $.ajax({
-		  url: "{% url 'speak' %}",		  	  
-		  dataType: 'json',
-		  success: function(data) { },	  error: function(data) {  },
-	  	})	})
-*/
+
 
 })
 </script>

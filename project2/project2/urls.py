@@ -65,6 +65,9 @@ urlpatterns = [
 	path('to_robot/', app1.views.to_robot, name ='to_robot'),	
 	path('speak/', app1.views.genAudioStreamResponse, name ='speak'),	
 	
+	path('new_audio/', app1.views.new_audio, name ='new_audio'),	
+	path('play_audio/<int:abc>/', app1.views.play_audio, name='play_audio'),
+	path('delete_audio/<int:abc>/', app1.views.delete_audio, name='delete_audio'),
 #	url(r'^playback/(?P<select_image>\w+)/$', views.playback_show, name='playback_show'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

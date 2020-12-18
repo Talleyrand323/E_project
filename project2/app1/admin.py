@@ -4,6 +4,7 @@ from django.contrib import admin
 
 
 from app1.models import Image
+from app1.models import myAudio
 
 admin.site.register(Image)
-
+admin.site.register(myAudio)

@@ -28,7 +28,7 @@ from time import sleep
 import sys 
 
 from app1.models import Image
-
+from app1.models import myAudio
 
 
 ######################################
@@ -129,13 +129,9 @@ def main2(request):
 	h.close()
 	t.close()
 	
-	return render(request, 'main2.html', {'hum' : hum, 'tem' : tem})
+	audio_list = myAudio.objects.all()
+	return render(request, 'main2.html', {'hum' : hum, 'tem' : tem, 'audio_list' : audio_list})
 
-def main2a(request):
-	if request.method == 'POST':
-			cam.take_frame()
-			
-	return render(request, 'main2a.html')
 
 def login(request):
 
@@ -500,7 +496,36 @@ def delete_edit(request, abc):
 		
 	return redirect('playback')
 
+##############################################3
+
+def new_audio(request):
+
+	if request.method == 'POST' :
+		myAud = myAudio()
+		myAud.title = request.POST['audio_name']
+		myAud.audio = request.FILES['audio_file']
+		myAud.save()
+
+	example = "hello AJAX!"
+	context = {'hello' : example }
+	
+	return redirect('main2')
 
 
+def play_audio(request, abc):
+	post = get_object_or_404(myAudio, pk = abc)
+	audio_name = post.title
+	os.system('omxplayer --vol -3000 /home/pi/E_project/project2/media/audios/' + audio_name + ' &')
+
+	return redirect('main2')
+
+def delete_audio(request, abc):
+
+	post = get_object_or_404(myAudio, pk = abc)
+	audio_name = post.title
+	os.system('rm /home/pi/E_project/project2/media/audios/' + audio_name )
+	post.delete()
+		
+	return redirect('main2')
 
 
